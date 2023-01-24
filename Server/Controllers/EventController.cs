@@ -44,5 +44,18 @@ namespace EventsApp.Server.Controllers
             events.Add(newEvent);
             return Ok(events);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<List<Event>>> UpdateEvent(int id, Event request)
+        {
+            var updatedEvent = events.Find(x => x.Id == id);
+            if (updatedEvent is null)
+                return NotFound("This event does not exist");
+
+            updatedEvent.Title = request.Title;
+            updatedEvent.Description = request.Description;
+
+            return Ok(events);
+        }
     }
 }
