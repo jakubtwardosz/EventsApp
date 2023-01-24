@@ -37,5 +37,12 @@ namespace EventsApp.Server.Controllers
 
             return Ok(singleEvent);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Event>>> AddEvent(Event newEvent)
+        {
+            events.Add(newEvent);
+            return Ok(events);
+        }
     }
 }
