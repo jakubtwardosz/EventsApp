@@ -18,36 +18,37 @@ namespace EventsApp.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Event>>> GetAllEvents()
         {
-
-            var result = _eventService.GetAllEvents();
-            return Ok(result);
+            return await _eventService.GetAllEvents();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Event>>> GetSingleEvent(int id)
         {
-            var result = _eventService.GetSingleEvent(id);
+            var result = await _eventService.GetSingleEvent(id);
+            if (result == null)
+                return NotFound("This event does not exist");
+
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Event>>> AddEvent(Event newEvent)
+        public async Task<ActionResult<List<Event>>> AddEvent(Event ev)
         {
-            var result = _eventService.AddEvent(newEvent);
+            var result = await _eventService.AddEvent(ev);
             return Ok(result);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<List<Event>>> UpdateEvent(int id, Event request)
         {
-            var result = _eventService.UpdateEvent(id, request);
+            var result = await _eventService.UpdateEvent(id, request);
             return Ok(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<Event>>> DeleteEvent(int id)
         {
-            var result = _eventService.DeleteEvent(id);
+            var result = await _eventService.DeleteEvent(id);
             if (result is null)
                 return NotFound("This event does not exist");
             return Ok(result);

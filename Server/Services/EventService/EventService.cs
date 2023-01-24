@@ -2,28 +2,6 @@
 {
     public class EventService : IEventService
     {
-        private static List<Event> events = new List<Event> {
-                new Event
-                {   Id = 1,
-                    Title = "Hello world",
-                    Description = "The first event",
-                    StartDate = new DateTime(2008, 5, 1, 8, 30, 52),
-                    EndDate = DateTime.Now,
-                    Address = "Anywhere 1",
-                    City = "Nowhere",
-                    Price = 9.99M
-                },
-                new Event
-                {   Id = 2,
-                    Title = "Goodbye world",
-                    Description = "The last event",
-                    StartDate = new DateTime(2008, 5, 1, 8, 30, 52),
-                    EndDate = DateTime.Now,
-                    Address = "Anywhere 1",
-                    City = "Nowhere",
-                    Price = 9.99M
-                }
-            };
         private readonly DataContext _context;
 
         public EventService(DataContext context)
@@ -31,53 +9,59 @@
             _context = context;
         }
 
-        public List<Event> AddEvent(Event newEvent)
+        public async Task<List<Event>> AddEvent(Event ev)
         {
-            events.Add(newEvent);
-            return events;
+            _context.Events.Add(ev);
+            await _context.SaveChangesAsync();
+            return await _context.Events.ToListAsync();
         }
 
-        public List<Event>? DeleteEvent(int id)
+        public async Task<List<Event>?> DeleteEvent(int id)
         {
-            var deletedEvent = events.Find(x => x.Id == id);
-            if (deletedEvent is null)
+            var ev = await _context.Events.FindAsync(id);
+            if (ev is null)
                 return null;
 
-            events.Remove(deletedEvent);
+            _context.Events.Remove(ev);
 
+            await _context.SaveChangesAsync();
+
+            return await _context.Events.ToListAsync();
+        }
+
+        public async Task<List<Event>> GetAllEvents()
+        {
+            var events = await _context.Events.ToListAsync();
             return events;
         }
 
-        public List<Event> GetAllEvents()
+        public async Task<Event?> GetSingleEvent(int id)
         {
-            return events;
-        }
+            var ev = await _context.Events.FindAsync(id);
 
-        public Event? GetSingleEvent(int id)
-        {
-            var singleEvent = events.Find(x => x.Id == id);
-
-            if (singleEvent is null)
+            if (ev is null)
                 return null;
 
-            return singleEvent;
+            return ev;
         }
 
-        public List<Event>? UpdateEvent(int id, Event request)
+        public async Task<List<Event>?> UpdateEvent(int id, Event request)
         {
-            var updatedEvent = events.Find(x => x.Id == id);
-            if (updatedEvent is null)
+            var ev = await _context.Events.FindAsync(id);
+            if (ev is null)
                 return null;
 
-            updatedEvent.Title = request.Title;
-            updatedEvent.Description = request.Description;
-            updatedEvent.StartDate = request.StartDate;
-            updatedEvent.EndDate = request.EndDate;
-            updatedEvent.Address = request.Address;
-            updatedEvent.City = request.City;
-            updatedEvent.Price = request.Price;
+            ev.Title = request.Title;
+            ev.Description = request.Description;
+            ev.StartDate = request.StartDate;
+            ev.EndDate = request.EndDate;
+            ev.Address = request.Address;
+            ev.City = request.City;
+            ev.Price = request.Price;
 
-            return events;
+            await _context.SaveChangesAsync();
+
+            return await _context.Events.ToListAsync();
         }
     }
 }

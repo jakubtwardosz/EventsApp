@@ -2,10 +2,10 @@
 {
     public interface IEventService
     {
-        List<Event> GetAllEvents();
-        Event? GetSingleEvent(int id);
-        List<Event> AddEvent(Event newEvent);
-        List<Event>? UpdateEvent(int id, Event request);
-        List<Event>? DeleteEvent(int id);
+        Task<List<Event>> GetAllEvents();
+        Task<Event?> GetSingleEvent(int id);
+        Task<List<Event>> AddEvent(Event ev);
+        Task<List<Event>?> UpdateEvent(int id, Event request);
+        Task<List<Event>?> DeleteEvent(int id);
     }
 }
