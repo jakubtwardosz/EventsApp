@@ -24,6 +24,12 @@
                     Price = 9.99M
                 }
             };
+        private readonly DataContext _context;
+
+        public EventService(DataContext context)
+        {
+            _context = context;
+        }
 
         public List<Event> AddEvent(Event newEvent)
         {

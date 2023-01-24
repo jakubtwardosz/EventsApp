@@ -17,6 +17,8 @@ namespace EventsApp.Shared
         public DateTime EndDate { get; set; }
         public string Address { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         // Photo?
