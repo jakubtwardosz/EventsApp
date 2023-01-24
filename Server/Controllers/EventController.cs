@@ -57,5 +57,18 @@ namespace EventsApp.Server.Controllers
 
             return Ok(events);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<Event>>> DeleteEvent(int id)
+        {
+            var deletedEvent = events.Find(x => x.Id == id);
+            if (deletedEvent is null)
+                return NotFound("This event does not exist");
+
+            events.Remove(deletedEvent);
+
+            return Ok(events);
+        }
+
     }
 }
