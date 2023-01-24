@@ -1,4 +1,4 @@
-﻿using EventsApp.Shared;
+﻿using EventsApp.Server.Services.EventService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,76 +8,49 @@ namespace EventsApp.Server.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private static List<Event> events = new List<Event> {
-                new Event
-                {   Id = 1,
-                    Title = "Hello world",
-                    Description = "The first event",
-                    StartDate = new DateTime(2008, 5, 1, 8, 30, 52),
-                    EndDate = DateTime.Now,
-                    Address = "Anywhere 1",
-                    City = "Nowhere",
-                    Price = 9.99M
-                },
-                new Event
-                {   Id = 2,
-                    Title = "Goodbye world",
-                    Description = "The last event",
-                    StartDate = new DateTime(2008, 5, 1, 8, 30, 52),
-                    EndDate = DateTime.Now,
-                    Address = "Anywhere 1",
-                    City = "Nowhere",
-                    Price = 9.99M
-                }
-            };
+        private readonly IEventService _eventService;
+
+        public EventController(IEventService eventService)
+        {
+            _eventService = eventService;
+        }
 
         [HttpGet]
         public async Task<ActionResult<List<Event>>> GetAllEvents()
         {
-            return Ok(events);
+
+            var result = _eventService.GetAllEvents();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Event>>> GetSingleEvent(int id)
         {
-            var singleEvent = events.Find(x => x.Id == id);
-
-            if (singleEvent is null)
-                return NotFound("This event does not exist");
-
-            return Ok(singleEvent);
+            var result = _eventService.GetSingleEvent(id);
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<ActionResult<List<Event>>> AddEvent(Event newEvent)
         {
-            events.Add(newEvent);
-            return Ok(events);
+            var result = _eventService.AddEvent(newEvent);
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<List<Event>>> UpdateEvent(int id, Event request)
         {
-            var updatedEvent = events.Find(x => x.Id == id);
-            if (updatedEvent is null)
-                return NotFound("This event does not exist");
-
-            updatedEvent.Title = request.Title;
-            updatedEvent.Description = request.Description;
-
-            return Ok(events);
+            var result = _eventService.UpdateEvent(id, request);
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<List<Event>>> DeleteEvent(int id)
         {
-            var deletedEvent = events.Find(x => x.Id == id);
-            if (deletedEvent is null)
+            var result = _eventService.DeleteEvent(id);
+            if (result is null)
                 return NotFound("This event does not exist");
-
-            events.Remove(deletedEvent);
-
-            return Ok(events);
+            return Ok(result);
         }
 
     }

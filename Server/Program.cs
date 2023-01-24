@@ -1,4 +1,5 @@
-using Microsoft.AspNetCore.ResponseCompression;
+global using EventsApp.Shared;
+using EventsApp.Server.Services.EventService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IEventService,EventService>();
+
 
 var app = builder.Build();
 

@@ -1,32 +1,77 @@
-﻿using EventsApp.Shared;
-
-namespace EventsApp.Server.Services.EventService
+﻿namespace EventsApp.Server.Services.EventService
 {
     public class EventService : IEventService
     {
+        private static List<Event> events = new List<Event> {
+                new Event
+                {   Id = 1,
+                    Title = "Hello world",
+                    Description = "The first event",
+                    StartDate = new DateTime(2008, 5, 1, 8, 30, 52),
+                    EndDate = DateTime.Now,
+                    Address = "Anywhere 1",
+                    City = "Nowhere",
+                    Price = 9.99M
+                },
+                new Event
+                {   Id = 2,
+                    Title = "Goodbye world",
+                    Description = "The last event",
+                    StartDate = new DateTime(2008, 5, 1, 8, 30, 52),
+                    EndDate = DateTime.Now,
+                    Address = "Anywhere 1",
+                    City = "Nowhere",
+                    Price = 9.99M
+                }
+            };
+
         public List<Event> AddEvent(Event newEvent)
         {
-            throw new NotImplementedException();
+            events.Add(newEvent);
+            return events;
         }
 
-        public List<Event> DeleteEvent(int id)
+        public List<Event>? DeleteEvent(int id)
         {
-            throw new NotImplementedException();
+            var deletedEvent = events.Find(x => x.Id == id);
+            if (deletedEvent is null)
+                return null;
+
+            events.Remove(deletedEvent);
+
+            return events;
         }
 
         public List<Event> GetAllEvents()
         {
-            throw new NotImplementedException();
+            return events;
         }
 
-        public Event GetSingleEvent(int id)
+        public Event? GetSingleEvent(int id)
         {
-            throw new NotImplementedException();
+            var singleEvent = events.Find(x => x.Id == id);
+
+            if (singleEvent is null)
+                return null;
+
+            return singleEvent;
         }
 
-        public List<Event> UpdateEvent(int id, Event request)
+        public List<Event>? UpdateEvent(int id, Event request)
         {
-            throw new NotImplementedException();
+            var updatedEvent = events.Find(x => x.Id == id);
+            if (updatedEvent is null)
+                return null;
+
+            updatedEvent.Title = request.Title;
+            updatedEvent.Description = request.Description;
+            updatedEvent.StartDate = request.StartDate;
+            updatedEvent.EndDate = request.EndDate;
+            updatedEvent.Address = request.Address;
+            updatedEvent.City = request.City;
+            updatedEvent.Price = request.Price;
+
+            return events;
         }
     }
 }
