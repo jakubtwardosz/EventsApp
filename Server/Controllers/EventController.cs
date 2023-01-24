@@ -12,12 +12,22 @@ namespace EventsApp.Server.Controllers
                 new Event
                 {   Id = 1,
                     Title = "Hello world",
-                    Description = "The first event"
+                    Description = "The first event",
+                    StartDate = new DateTime(2008, 5, 1, 8, 30, 52),
+                    EndDate = DateTime.Now,
+                    Address = "Anywhere 1",
+                    City = "Nowhere",
+                    Price = 9.99M
                 },
                 new Event
                 {   Id = 2,
                     Title = "Goodbye world",
-                    Description = "The last event"
+                    Description = "The last event",
+                    StartDate = new DateTime(2008, 5, 1, 8, 30, 52),
+                    EndDate = DateTime.Now,
+                    Address = "Anywhere 1",
+                    City = "Nowhere",
+                    Price = 9.99M
                 }
             };
 
