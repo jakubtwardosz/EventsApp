@@ -9,13 +9,14 @@
             _context = context;
         }
 
+        // ServiceResponse!
         public async Task<List<Event>> AddEvent(Event ev)
         {
             _context.Events.Add(ev);
             await _context.SaveChangesAsync();
             return await _context.Events.ToListAsync();
         }
-
+        // ServiceResponse!
         public async Task<List<Event>?> DeleteEvent(int id)
         {
             var ev = await _context.Events.FindAsync(id);
@@ -28,13 +29,13 @@
 
             return await _context.Events.ToListAsync();
         }
-
+        // ServiceResponse!
         public async Task<List<Event>> GetAllEvents()
         {
             var events = await _context.Events.ToListAsync();
             return events;
         }
-
+        // ServiceResponse!
         public async Task<Event?> GetSingleEvent(int id)
         {
             var ev = await _context.Events.FindAsync(id);
@@ -44,7 +45,7 @@
 
             return ev;
         }
-
+        // ServiceResponse!
         public async Task<List<Event>?> UpdateEvent(int id, Event request)
         {
             var ev = await _context.Events.FindAsync(id);

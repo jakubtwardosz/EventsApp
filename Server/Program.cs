@@ -1,6 +1,7 @@
 global using EventsApp.Shared;
 global using EventsApp.Server.Data;
-using EventsApp.Server.Services.EventService;
+global using EventsApp.Server.Services.EventService;
+global using EventsApp.Server.Services.AuthService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEventService,EventService>();
+builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddDbContext<DataContext>();
 
 
