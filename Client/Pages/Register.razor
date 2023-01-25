@@ -29,8 +29,8 @@
 
     <button type="submit" class="btn btn-primary mt-4">Register</button>
     <ValidationSummary class="mt-4" />
-    <div class="alert alert-warning mt-4 @hideError" role="alert">
-        @errorMessage
+    <div class="alert @alertColor mt-4" role="alert">
+        @message
     </div>
 </EditForm>
 
@@ -38,22 +38,21 @@
 
     UserRegister user = new UserRegister();
 
-    string errorMessage = string.Empty;
-    string hideError = "d-none";
+    string message = string.Empty;
+    string alertColor = string.Empty;
 
     async Task HandleRegistration()
     {
         var result = await AuthService.Register(user);
+        message = result.Message;
 
-        if (!result.Success)
+        if (result.Success)
         {
-            hideError = "d-show";
-            errorMessage = result.Message;            
+            alertColor = "alert-success";    
         }
         else
         {
-            hideError = "d-none";
-            errorMessage = string.Empty;
+            alertColor = "alert-warning";
         }
     }
 }
