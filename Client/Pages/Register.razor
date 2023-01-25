@@ -6,6 +6,8 @@
 <h3 class="mb-3">Register</h3>
 
 <EditForm Model="user" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator />
+    
     <div class="row g-3">
         <div class="col-12">
             <label for="email" class="form-label">Email</label>
@@ -22,6 +24,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary mt-4">Register</button>
+    <ValidationSummary class="mt-4" />
 </EditForm>
 
 @code {
@@ -32,3 +35,4 @@
         Console.WriteLine($"Register user with the email {user.Email}.");
     }
 }
+
