@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsApp.Server", "Server\EventsApp.Server.csproj", "{574CB86B-F89E-46EE-AF62-B24FE7242FD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsApp.Server", "Server\EventsApp.Server.csproj", "{574CB86B-F89E-46EE-AF62-B24FE7242FD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsApp.Client", "Client\EventsApp.Client.csproj", "{C4C7DDD9-1887-4C52-8BCB-93AAF45B5404}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsApp.Client", "Client\EventsApp.Client.csproj", "{C4C7DDD9-1887-4C52-8BCB-93AAF45B5404}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsApp.Shared", "Shared\EventsApp.Shared.csproj", "{944EDC65-809F-446C-BEBF-05981AC6EDE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsApp.Shared", "Shared\EventsApp.Shared.csproj", "{944EDC65-809F-446C-BEBF-05981AC6EDE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

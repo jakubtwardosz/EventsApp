@@ -1,0 +1,35 @@
+﻿@page "/register"
+@using EventsApp.Shared;
+
+<PageTitle>Register</PageTitle>
+
+<h3>Register</h3>
+
+<EditForm Model="user" OnValidSubmit="HandleRegistration">
+    <div class="row g-3">
+        <div class="col-12">
+            <label for="email" class="form-label">Email</label>
+            <InputText id="email" @bind-Value="user.Email" class="form-control" placeholder="you@example.com" />
+        </div>
+        <div class="col-12">
+            <label for="password" class="form-label">Password</label>
+            <InputText id="password" type="password" @bind-Value="user.Password" class="form-control" placeholder="Password" />
+        </div>
+        <div class="col-12">
+            <label for="confirmPassword" class="form-label">Confirm password</label>
+            <InputText id="confirmPassword" type="password" @bind-Value="user.ConfirmPassword" class="form-control" placeholder="Confirm password" />
+        </div>
+    </div>
+
+    <hr class="my-4" />
+    <button type="submit" class="btn btn-primary">Register</button>
+</EditForm>
+
+@code {
+    UserRegister user = new UserRegister();
+
+    void HandleRegistration()
+    {
+        Console.WriteLine($"Register user with the email {user.Email}.");
+    }
+}
