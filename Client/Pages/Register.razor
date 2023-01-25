@@ -1,5 +1,9 @@
-﻿@page "/register"
+﻿@using EventsApp.Client.Services.AuthService;
 @using EventsApp.Shared;
+
+@page "/register"
+@inject IAuthService AuthService
+
 
 <PageTitle>Register</PageTitle>
 
@@ -25,14 +29,32 @@
 
     <button type="submit" class="btn btn-primary mt-4">Register</button>
     <ValidationSummary class="mt-4" />
+    <div class="alert alert-warning mt-4 @hideError" role="alert">
+        @errorMessage
+    </div>
 </EditForm>
 
 @code {
+
     UserRegister user = new UserRegister();
 
-    void HandleRegistration()
+    string errorMessage = string.Empty;
+    string hideError = "d-none";
+
+    async Task HandleRegistration()
     {
-        Console.WriteLine($"Register user with the email {user.Email}.");
+        var result = await AuthService.Register(user);
+
+        if (!result.Success)
+        {
+            hideError = "d-show";
+            errorMessage = result.Message;            
+        }
+        else
+        {
+            hideError = "d-none";
+            errorMessage = string.Empty;
+        }
     }
 }
 
