@@ -16,5 +16,6 @@ namespace EventsApp.Server.Data
         }
 
         public DbSet<Event> Events { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
