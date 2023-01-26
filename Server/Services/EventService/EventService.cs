@@ -42,7 +42,8 @@
         public async Task<ServiceResponse<Event?>> GetEvent(int id)
         {
             var response = new ServiceResponse<Event>();
-            var ev = await _context.Events.FindAsync(id);
+            // var ev = await _context.Events.FindAsync(id);
+            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == id && !e.Deleted && e.Visible);
 
             if (ev == null)
             {
