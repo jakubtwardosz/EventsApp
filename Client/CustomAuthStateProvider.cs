@@ -20,8 +20,6 @@ namespace EventsApp.Client
             _http = http;
         }
 
-        public ILocalStorageService LocalStorageService { get; }
-
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             string authToken = await _localStorageService.GetItemAsStringAsync("authToken");
@@ -66,7 +64,7 @@ namespace EventsApp.Client
             var payload = jwt.Split('.')[1];
             var jsonBytes = ParseBase64WithoutPadding(payload);
             var keyValuePairs = JsonSerializer
-                .Deserialize<Dictionary<string, string>>(jsonBytes);
+                .Deserialize<Dictionary<string, object>>(jsonBytes);
 
             var claims = keyValuePairs.Select(kv => new Claim(kv.Key, kv.Value.ToString()));
 

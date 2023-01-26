@@ -2,6 +2,7 @@
 @inject IAuthService AuthService
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Login</PageTitle>
 
@@ -25,7 +26,7 @@
     <ValidationSummary class="mt-4" />
 </EditForm>
 
-<div class="alert alert-warning mt-4" role="alert">
+<div class="alert @alertColor mt-4" role="alert">
     @errorMessage
 </div>
 
@@ -34,6 +35,7 @@
     private UserLogin user = new UserLogin();
 
     private string errorMessage = string.Empty;
+    string alertColor = string.Empty;
 
     private async Task HandleLogin()
     {
@@ -43,10 +45,12 @@
             errorMessage = string.Empty;
 
             await LocalStorage.SetItemAsync("authToken", result.Data);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
             NavigationManager.NavigateTo("");
         }
         else
         {
+            alertColor = "alert-warning";
             errorMessage = result.Message;
         }
     }
