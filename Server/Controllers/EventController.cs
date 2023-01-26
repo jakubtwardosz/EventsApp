@@ -22,38 +22,35 @@ namespace EventsApp.Server.Controllers
             return Ok(result);
         }
 
-/*        [HttpGet("{id}")]
-        public async Task<ActionResult<List<Event>>> GetSingleEvent(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<Event>>> GetSingleEvent(int id)
         {
-            var result = await _eventService.GetSingleEvent(id);
-            if (result == null)
-                return NotFound("This event does not exist");
-
+            var result = await _eventService.GetEvent(id);
             return Ok(result);
         }
-*/
-/*        [HttpPost]
-        public async Task<ActionResult<List<Event>>> AddEvent(Event ev)
-        {
-            var result = await _eventService.AddEvent(ev);
-            return Ok(result);
-        }
-*/
-/*        [HttpPut("{id}")]
-        public async Task<ActionResult<List<Event>>> UpdateEvent(int id, Event request)
-        {
-            var result = await _eventService.UpdateEvent(id, request);
-            return Ok(result);
-        }*/
 
-/*        [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Event>>> DeleteEvent(int id)
-        {
-            var result = await _eventService.DeleteEvent(id);
-            if (result is null)
-                return NotFound("This event does not exist");
-            return Ok(result);
-        }*/
+        /*        [HttpPost]
+                public async Task<ActionResult<List<Event>>> AddEvent(Event ev)
+                {
+                    var result = await _eventService.AddEvent(ev);
+                    return Ok(result);
+                }
+        */
+        /*        [HttpPut("{id}")]
+                public async Task<ActionResult<List<Event>>> UpdateEvent(int id, Event request)
+                {
+                    var result = await _eventService.UpdateEvent(id, request);
+                    return Ok(result);
+                }*/
+
+        /*        [HttpDelete("{id}")]
+                public async Task<ActionResult<List<Event>>> DeleteEvent(int id)
+                {
+                    var result = await _eventService.DeleteEvent(id);
+                    if (result is null)
+                        return NotFound("This event does not exist");
+                    return Ok(result);
+                }*/
 
     }
 }

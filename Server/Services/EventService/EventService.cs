@@ -39,32 +39,41 @@
             return response;
         }
 
-/*        public async Task<ServiceResponse<Event?>> GetSingleEvent(int id)
+        public async Task<ServiceResponse<Event?>> GetEvent(int id)
         {
+            var response = new ServiceResponse<Event>();
             var ev = await _context.Events.FindAsync(id);
 
-            if (ev is null)
-                return null;
+            if (ev == null)
+            {
+                response.Success = false;
+                response.Message = "Event is not exist.";
+            }
+            else
+            {
+                response.Data= ev;
+            }
 
-            return ev;
-        }*/
+            return response;
+        }
+
         // ServiceResponse!
-/*        public async Task<ServiceResponse<List<Event>?>> UpdateEvent(int id, Event request)
-        {
-            var ev = await _context.Events.FindAsync(id);
-            if (ev is null)
-                return null;
+        /*        public async Task<ServiceResponse<List<Event>?>> UpdateEvent(int id, Event request)
+                {
+                    var ev = await _context.Events.FindAsync(id);
+                    if (ev is null)
+                        return null;
 
-            ev.Title = request.Title;
-            ev.Description = request.Description;
-            ev.StartDate = request.StartDate;
-            ev.Address = request.Address;
-            ev.City = request.City;
-            ev.Price = request.Price;
+                    ev.Title = request.Title;
+                    ev.Description = request.Description;
+                    ev.StartDate = request.StartDate;
+                    ev.Address = request.Address;
+                    ev.City = request.City;
+                    ev.Price = request.Price;
 
-            await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
 
-            return await _context.Events.ToListAsync();
-        }*/
+                    return await _context.Events.ToListAsync();
+                }*/
     }
 }
