@@ -55,7 +55,6 @@
             ev.Title = request.Title;
             ev.Description = request.Description;
             ev.StartDate = request.StartDate;
-            ev.EndDate = request.EndDate;
             ev.Address = request.Address;
             ev.City = request.City;
             ev.Price = request.Price;

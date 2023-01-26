@@ -5,6 +5,8 @@
 <AuthorizeView>
     <Authorized>
         <h1>Hello, @context.User.Identity.Name!</h1>
+
+        <EventList />
     </Authorized>
     <NotAuthorized>
         <h1>Hello, stranger!</h1>
