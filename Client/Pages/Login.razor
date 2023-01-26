@@ -1,4 +1,7 @@
 ﻿@page "/login"
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManager
 
 <PageTitle>Login</PageTitle>
 
@@ -22,13 +25,30 @@
     <ValidationSummary class="mt-4" />
 </EditForm>
 
+<div class="alert alert-warning mt-4" role="alert">
+    @errorMessage
+</div>
+
 
 @code {
     private UserLogin user = new UserLogin();
 
+    private string errorMessage = string.Empty;
+
     private async Task HandleLogin()
     {
-        Console.WriteLine("Log me in!");
+        var result = await AuthService.Login(user);
+        if(result.Success)
+        {
+            errorMessage = string.Empty;
+
+            await LocalStorage.SetItemAsync("authToken", result.Data);
+            NavigationManager.NavigateTo("");
+        }
+        else
+        {
+            errorMessage = result.Message;
+        }
     }
 
 }
