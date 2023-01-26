@@ -5,5 +5,7 @@
         List<Event> Events { get; set; }
 
         Task GetEvents();
+
+        Task<ServiceResponse<Event>> GetEvent(int id);
     }
 }

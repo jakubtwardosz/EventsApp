@@ -18,13 +18,18 @@
 
 @code {
     private Event? ev = null;
+    private string message;
 
     [Parameter]
     public int Id { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
-        ev = EventService.Events.Find(e => e.Id == Id);
+        var result = await EventService.GetEvent(Id);
 
+        if (result.Success)
+        {
+            ev = result.Data;
+        }
     }
 }
