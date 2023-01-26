@@ -1,8 +1,8 @@
-﻿@inject HttpClient Http
+﻿@inject IEventService EventService
 
 <div class="container mt-4">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    @foreach (var ev in Events)
+    @foreach (var ev in EventService.Events)
     {
 
             <div class="col">
@@ -24,13 +24,9 @@
 </div>
 
 @code {
-    private static List<Event> Events = new List<Event>();
-
     protected override async Task OnInitializedAsync()
     {
-        var result = await Http.GetFromJsonAsync<List<Event>>("/api/Event");
-        if (result != null)
-            Events = result;
+        await EventService.GetEvents();
     }
 }
 

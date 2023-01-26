@@ -10,14 +10,14 @@
         }
 
         // ServiceResponse!
-        public async Task<List<Event>> AddEvent(Event ev)
+/*        public async Task<ServiceResponse<List<Event>>> AddEvent(Event ev)
         {
             _context.Events.Add(ev);
             await _context.SaveChangesAsync();
             return await _context.Events.ToListAsync();
-        }
+        }*/
         // ServiceResponse!
-        public async Task<List<Event>?> DeleteEvent(int id)
+/*        public async Task<ServiceResponse<List<Event>?>> DeleteEvent(int id)
         {
             var ev = await _context.Events.FindAsync(id);
             if (ev is null)
@@ -28,15 +28,18 @@
             await _context.SaveChangesAsync();
 
             return await _context.Events.ToListAsync();
-        }
-        // ServiceResponse!
-        public async Task<List<Event>> GetAllEvents()
+        }*/
+        public async Task<ServiceResponse<List<Event>>> GetEvents()
         {
-            var events = await _context.Events.ToListAsync();
-            return events;
+            var response = new ServiceResponse<List<Event>>()
+            {
+                Data = await _context.Events.ToListAsync()
+            };
+
+            return response;
         }
-        // ServiceResponse!
-        public async Task<Event?> GetSingleEvent(int id)
+
+/*        public async Task<ServiceResponse<Event?>> GetSingleEvent(int id)
         {
             var ev = await _context.Events.FindAsync(id);
 
@@ -44,9 +47,9 @@
                 return null;
 
             return ev;
-        }
+        }*/
         // ServiceResponse!
-        public async Task<List<Event>?> UpdateEvent(int id, Event request)
+/*        public async Task<ServiceResponse<List<Event>?>> UpdateEvent(int id, Event request)
         {
             var ev = await _context.Events.FindAsync(id);
             if (ev is null)
@@ -62,6 +65,6 @@
             await _context.SaveChangesAsync();
 
             return await _context.Events.ToListAsync();
-        }
+        }*/
     }
 }
