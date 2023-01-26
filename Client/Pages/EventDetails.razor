@@ -1,0 +1,30 @@
+﻿@page "/event/{id:int}"
+@inject IEventService EventService
+
+<div class="container mt-4">
+
+
+    <img class="rounded mx-auto d-block img-fluid mb-5" style="max-height:450px" src="@ev.ImageUrl" alt="ev.Title" />
+
+    <h1 class="mb-2">@ev.Title</h1>
+
+    <p class="mb-3">@ev.Description</p>
+
+    <p><strong>Data: </strong>@ev.StartDate.ToLongDateString()</p>
+    <p><strong>Adres: </strong>@ev.City, @ev.Address</p>
+    <p><strong>Cena: </strong>@ev.Price zł</p>
+
+</div>
+
+@code {
+    private Event? ev = null;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        ev = EventService.Events.Find(e => e.Id == Id);
+
+    }
+}
