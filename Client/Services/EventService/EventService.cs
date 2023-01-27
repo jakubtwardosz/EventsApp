@@ -15,7 +15,7 @@ namespace EventsApp.Client.Services.EventService
 
         public async Task<ServiceResponse<Event>> GetEvent(int id)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<Event>>($"api/Event{id}");
+            var result = await _http.GetFromJsonAsync<ServiceResponse<Event>>($"api/Event/{id}");
             return result;
         }
 

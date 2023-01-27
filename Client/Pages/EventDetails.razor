@@ -1,24 +1,30 @@
 ﻿@page "/event/{id:int}"
 @inject IEventService EventService
 
-<div class="container mt-4">
+@if (ev == null)
+{
+    <span>@message</span>
+}
+else {
+    <div class="container mt-4">
+        <img class="rounded mx-auto d-block img-fluid mb-5" style="max-height:450px" src="@ev.ImageUrl" alt="ev.Title" />
+
+        <h1 class="mb-2">@ev.Title</h1>
+
+        <p class="mb-3">@ev.Description</p>
+
+        <p><strong>Data: </strong>@ev.StartDate.ToLongDateString()</p>
+        <p><strong>Adres: </strong>@ev.City, @ev.Address</p>
+        <p><strong>Cena: </strong>@ev.Price zł</p>
+    </div>
+}
 
 
-    <img class="rounded mx-auto d-block img-fluid mb-5" style="max-height:450px" src="@ev.ImageUrl" alt="ev.Title" />
 
-    <h1 class="mb-2">@ev.Title</h1>
-
-    <p class="mb-3">@ev.Description</p>
-
-    <p><strong>Data: </strong>@ev.StartDate.ToLongDateString()</p>
-    <p><strong>Adres: </strong>@ev.City, @ev.Address</p>
-    <p><strong>Cena: </strong>@ev.Price zł</p>
-
-</div>
 
 @code {
     private Event? ev = null;
-    private string message;
+    private string message = string.Empty;
 
     [Parameter]
     public int Id { get; set; }
@@ -27,7 +33,13 @@
     {
         var result = await EventService.GetEvent(Id);
 
-        if (result.Success)
+        message = "Loading product...";
+
+        if (!result.Success)
+        {
+            message = result.Message;
+        }
+        else
         {
             ev = result.Data;
         }
