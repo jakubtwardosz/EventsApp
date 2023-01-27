@@ -1,0 +1,123 @@
+﻿@page "/edit/event"
+@page "/edit/event/{id:int}"
+@inject IEventService EventService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<div class="container">
+    @if (loading)
+    {
+            <p>@msg</p>
+    }
+    else
+    {
+        @if (ev.Editing)
+        {
+                    <div class="col-12">
+                        <div class="mb-4">
+                            <h2 class="mb-0">Edit "@ev.Title"</h2>
+                        </div>
+                    </div>
+        }
+        else if (ev.IsNew)
+        {
+                    <div class="col-12">
+                        <div class="mb-4">
+                            <h2 class="mb-0">Create a new Product</h2>
+                        </div>
+                    </div>
+        }
+            <div class="col-12 mb-5">
+                <EditForm Model="ev" OnValidSubmit="AddOrUpdateEvent">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <InputText type="text" class="form-control" id="title" @bind-Value="ev.Title"></InputText>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imageUrl" class="form-label">Image Url</label>
+                        <InputText type="text" class="form-control" id="imageUrl" @bind-Value="ev.ImageUrl"></InputText>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <InputTextArea class="form-control" id="description" @bind-Value="ev.Description"></InputTextArea>
+                    </div>
+
+
+
+                    <button type="submit" class="btn btn-primary mb-2">@btnText</button>
+                    <ValidationSummary></ValidationSummary>
+                </EditForm>
+            @if (!ev.IsNew)
+            {
+                        <button type="button" class="btn btn-danger mb-2" @onclick="DeleteEvent">
+                            Delete Event
+                        </button>
+            }
+            </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    Event ev = new Event();
+
+
+    bool loading = true;
+    string btnText = "";
+    string msg = "Loading...";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == 0)
+        {
+            ev = new Event { IsNew = true };
+            btnText = "Create Event";
+        }
+        else
+        {
+            Event dbProduct = (await EventService.GetEvent(Id)).Data;
+            if (dbProduct == null)
+            {
+                msg = $"Event with Id '{Id}' does not exist!";
+                return;
+            }
+            ev = dbProduct;
+            ev.Editing = true;
+            btnText = "Update Event";
+        }
+        loading = false;
+    }
+
+ 
+ 
+
+    async void AddOrUpdateEvent()
+    {
+        if (ev.IsNew)
+        {
+            var result = await EventService.AddEvent(ev);
+            NavigationManager.NavigateTo($"edit/event/{result.Id}");
+        }
+        else
+        {
+            ev.IsNew = false;
+            ev = await EventService.UpdateEvent(ev);
+            NavigationManager.NavigateTo($"edit/event/{ev.Id}", true);
+        }
+    }
+
+    async void DeleteEvent()
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"Do you really want to delete '{ev.Title}'?");
+        if (confirmed)
+        {
+            await EventService.DeleteEvent(ev);
+            NavigationManager.NavigateTo("edit/events");
+        }
+    }
+}
