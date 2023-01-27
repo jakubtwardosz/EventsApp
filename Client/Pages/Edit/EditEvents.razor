@@ -52,11 +52,11 @@
 
     void ShowEvent(int id)
     {
-        NavigationManager.NavigateTo($"Event/{id}");
+        NavigationManager.NavigateTo($"edit/event/{id}");
     }
 
     void CreateNewEvent()
     {
-        NavigationManager.NavigateTo("/Event");
+        NavigationManager.NavigateTo("edit/event");
     }
 }

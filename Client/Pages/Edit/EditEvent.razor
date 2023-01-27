@@ -35,16 +35,29 @@
                         <InputText type="text" class="form-control" id="title" @bind-Value="ev.Title"></InputText>
                     </div>
                     <div class="mb-3">
-                        <label for="imageUrl" class="form-label">Image Url</label>
-                        <InputText type="text" class="form-control" id="imageUrl" @bind-Value="ev.ImageUrl"></InputText>
-                    </div>
-
-                    <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
                         <InputTextArea class="form-control" id="description" @bind-Value="ev.Description"></InputTextArea>
                     </div>
-
-
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <InputDate class="form-control" id="date" @bind-Value="ev.StartDate"></InputDate>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <InputText class="form-control" id="address" @bind-Value="ev.Address"></InputText>
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City</label>
+                        <InputText class="form-control" id="city" @bind-Value="ev.City"></InputText>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <InputNumber class="form-control" id="price" @bind-Value="ev.Price"></InputNumber>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imageUrl" class="form-label">Image Url</label>
+                        <InputText type="text" class="form-control" id="imageUrl" @bind-Value="ev.ImageUrl"></InputText>
+                    </div>
 
                     <button type="submit" class="btn btn-primary mb-2">@btnText</button>
                     <ValidationSummary></ValidationSummary>
