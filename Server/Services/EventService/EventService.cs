@@ -31,7 +31,7 @@ namespace EventsApp.Server.Services.EventService
                 };
             }
 
-            /*dbEvent.Deleted = true;*/
+            dbEvent.Deleted = true;
 
             await _context.SaveChangesAsync();
             return new ServiceResponse<bool> { Data = true };
@@ -40,7 +40,7 @@ namespace EventsApp.Server.Services.EventService
         public async Task<ServiceResponse<Event>> UpdateEvent(Event ev)
         {
             var dbProduct = await _context.Events
-                .FirstOrDefaultAsync(e => e.Id == e.Id);
+                .FirstOrDefaultAsync(e => e.Id == ev.Id);
 
             if (dbProduct == null)
             {
@@ -57,6 +57,7 @@ namespace EventsApp.Server.Services.EventService
             dbProduct.Address = ev.Address;
             dbProduct.City = ev.City;
             dbProduct.Price = ev.Price;
+            dbProduct.ImageUrl= ev.ImageUrl;
 
 
             await _context.SaveChangesAsync();
@@ -73,11 +74,10 @@ namespace EventsApp.Server.Services.EventService
             return response;
         }
 
-        public async Task<ServiceResponse<Event?>> GetEvent(int id)
+        public async Task<ServiceResponse<Event>> GetEvent(int id)
         {
             var response = new ServiceResponse<Event>();
-            var ev = await _context.Events.FindAsync(id);
-            // var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == id && !e.Deleted && e.Visible);
+            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == id && !e.Deleted);
 
             if (ev == null)
             {
