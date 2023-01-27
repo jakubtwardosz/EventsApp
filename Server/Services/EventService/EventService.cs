@@ -68,7 +68,9 @@ namespace EventsApp.Server.Services.EventService
         {
             var response = new ServiceResponse<List<Event>>()
             {
-                Data = await _context.Events.ToListAsync()
+                Data = await _context.Events
+                .Where(e => !e.Deleted)
+                .ToListAsync()
             };
 
             return response;

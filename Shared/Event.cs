@@ -11,7 +11,6 @@ namespace EventsApp.Shared
     public class Event
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
@@ -20,11 +19,6 @@ namespace EventsApp.Shared
         public string City { get; set; } = string.Empty;
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
-        public bool Visible { get; set; } = true;
         public bool Deleted { get; set; } = false;
-        [NotMapped]
-        public bool Editing { get; set; } = false;
-        [NotMapped]
-        public bool IsNew { get; set; } = false;
     }
 }
