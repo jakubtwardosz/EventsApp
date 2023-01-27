@@ -25,7 +25,7 @@ namespace EventsApp.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<Event>>> GetSingleEvent(int id)
+        public async Task<ActionResult<ServiceResponse<Event>>> GetEvent(int id)
         {
             var result = await _eventService.GetEvent(id);
             return Ok(result);
@@ -38,14 +38,14 @@ namespace EventsApp.Server.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ServiceResponse<Event>>> UpdateProduct(Event ev)
+        public async Task<ActionResult<ServiceResponse<Event>>> UpdateEvent(Event ev)
         {
             var result = await _eventService.UpdateEvent(ev);
             return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<bool>>> DeleteProduct(int id)
+        public async Task<ActionResult<ServiceResponse<bool>>> DeleteEvent(int id)
         {
             var result = await _eventService.DeleteEvent(id);
             return Ok(result);

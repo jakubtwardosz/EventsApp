@@ -13,6 +13,19 @@ namespace EventsApp.Client.Services.EventService
 
         public List<Event> Events { get; set; } = new List<Event>();
 
+        public async Task<Event> AddEvent(Event ev)
+        {
+            var result = await _http.PostAsJsonAsync("api/Event", ev);
+            var newEvent = (await result.Content
+                .ReadFromJsonAsync<ServiceResponse<Event>>()).Data;
+            return newEvent;
+        }
+
+        public async Task DeleteEvent(Event ev)
+        {
+            var result = await _http.DeleteAsync($"api/Event/{ev.Id}");
+        }
+
         public async Task<ServiceResponse<Event>> GetEvent(int id)
         {
             var result = await _http.GetFromJsonAsync<ServiceResponse<Event>>($"api/Event/{id}");
@@ -24,6 +37,13 @@ namespace EventsApp.Client.Services.EventService
             var result = await _http.GetFromJsonAsync<ServiceResponse<List<Event>>>("api/Event");
             if (result != null && result.Data != null)
                 Events = result.Data;
+        }
+
+        public async Task<Event> UpdateEvent(Event ev)
+        {
+            var result = await _http.PutAsJsonAsync($"api/Event", ev);
+            var content = await result.Content.ReadFromJsonAsync<ServiceResponse<Event>>();
+            return content.Data;
         }
     }
 }
