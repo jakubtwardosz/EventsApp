@@ -1,6 +1,8 @@
 ﻿using EventsApp.Server.Services.EventService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace EventsApp.Server.Controllers
 {
@@ -27,30 +29,27 @@ namespace EventsApp.Server.Controllers
         {
             var result = await _eventService.GetEvent(id);
             return Ok(result);
+        }    
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<Event>>> AddEvent(Event ev)
+        {
+            var result = await _eventService.AddEvent(ev);
+            return Ok(result);
         }
 
-        /*        [HttpPost]
-                public async Task<ActionResult<List<Event>>> AddEvent(Event ev)
-                {
-                    var result = await _eventService.AddEvent(ev);
-                    return Ok(result);
-                }
-        */
-        /*        [HttpPut("{id}")]
-                public async Task<ActionResult<List<Event>>> UpdateEvent(int id, Event request)
-                {
-                    var result = await _eventService.UpdateEvent(id, request);
-                    return Ok(result);
-                }*/
+        [HttpPut]
+        public async Task<ActionResult<ServiceResponse<Event>>> UpdateProduct(Event ev)
+        {
+            var result = await _eventService.UpdateEvent(ev);
+            return Ok(result);
+        }
 
-        /*        [HttpDelete("{id}")]
-                public async Task<ActionResult<List<Event>>> DeleteEvent(int id)
-                {
-                    var result = await _eventService.DeleteEvent(id);
-                    if (result is null)
-                        return NotFound("This event does not exist");
-                    return Ok(result);
-                }*/
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<bool>>> DeleteProduct(int id)
+        {
+            var result = await _eventService.DeleteEvent(id);
+            return Ok(result);
+        }
 
     }
 }
