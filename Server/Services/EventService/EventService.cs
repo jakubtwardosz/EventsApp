@@ -1,4 +1,6 @@
-﻿namespace EventsApp.Server.Services.EventService
+﻿using Azure.Core;
+
+namespace EventsApp.Server.Services.EventService
 {
     public class EventService : IEventService
     {
@@ -9,26 +11,58 @@
             _context = context;
         }
 
-        // ServiceResponse!
-/*        public async Task<ServiceResponse<List<Event>>> AddEvent(Event ev)
+        public async Task<ServiceResponse<Event>> AddEvent(Event ev)
         {
             _context.Events.Add(ev);
             await _context.SaveChangesAsync();
-            return await _context.Events.ToListAsync();
-        }*/
-        // ServiceResponse!
-/*        public async Task<ServiceResponse<List<Event>?>> DeleteEvent(int id)
-        {
-            var ev = await _context.Events.FindAsync(id);
-            if (ev is null)
-                return null;
+            return new ServiceResponse<Event> { Data = ev };
+        }
 
-            _context.Events.Remove(ev);
+        public async Task<ServiceResponse<bool>> DeleteEvent(int id)
+        {
+            var dbEvent = await _context.Events.FindAsync(id);
+            if (dbEvent == null)
+            {
+                return new ServiceResponse<bool>
+                {
+                    Success = false,
+                    Data = false,
+                    Message = "Product not found."
+                };
+            }
+
+            /*dbEvent.Deleted = true;*/
 
             await _context.SaveChangesAsync();
+            return new ServiceResponse<bool> { Data = true };
+        }
 
-            return await _context.Events.ToListAsync();
-        }*/
+        public async Task<ServiceResponse<Event>> UpdateEvent(Event ev)
+        {
+            var dbProduct = await _context.Events
+                .FirstOrDefaultAsync(e => e.Id == e.Id);
+
+            if (dbProduct == null)
+            {
+                return new ServiceResponse<Event>
+                {
+                    Success = false,
+                    Message = "Product not found."
+                };
+            }
+
+            dbProduct.Title = ev.Title;
+            dbProduct.Description = ev.Description;
+            dbProduct.StartDate = ev.StartDate;
+            dbProduct.Address = ev.Address;
+            dbProduct.City = ev.City;
+            dbProduct.Price = ev.Price;
+
+
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<Event> { Data = ev };
+        }
+
         public async Task<ServiceResponse<List<Event>>> GetEvents()
         {
             var response = new ServiceResponse<List<Event>>()
@@ -42,8 +76,8 @@
         public async Task<ServiceResponse<Event?>> GetEvent(int id)
         {
             var response = new ServiceResponse<Event>();
-            // var ev = await _context.Events.FindAsync(id);
-            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == id && !e.Deleted && e.Visible);
+            var ev = await _context.Events.FindAsync(id);
+            // var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == id && !e.Deleted && e.Visible);
 
             if (ev == null)
             {
@@ -57,24 +91,5 @@
 
             return response;
         }
-
-        // ServiceResponse!
-        /*        public async Task<ServiceResponse<List<Event>?>> UpdateEvent(int id, Event request)
-                {
-                    var ev = await _context.Events.FindAsync(id);
-                    if (ev is null)
-                        return null;
-
-                    ev.Title = request.Title;
-                    ev.Description = request.Description;
-                    ev.StartDate = request.StartDate;
-                    ev.Address = request.Address;
-                    ev.City = request.City;
-                    ev.Price = request.Price;
-
-                    await _context.SaveChangesAsync();
-
-                    return await _context.Events.ToListAsync();
-                }*/
     }
 }
