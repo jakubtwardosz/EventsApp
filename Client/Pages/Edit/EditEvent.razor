@@ -40,15 +40,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="date" class="form-label">Date</label>
-                        <InputDate class="form-control" id="date" @bind-Value="ev.StartDate"></InputDate>
+                        <InputDate class="form-control" id="date" @bind-Value="ev.Date"></InputDate>
                     </div>
                     <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <InputText class="form-control" id="address" @bind-Value="ev.Address"></InputText>
+                        <label for="street" class="form-label">Street</label>
+                        <InputText class="form-control" id="street" @bind-Value="ev.Address.Street"></InputText>
                     </div>
                     <div class="mb-3">
                         <label for="city" class="form-label">City</label>
-                        <InputText class="form-control" id="city" @bind-Value="ev.City"></InputText>
+                    <InputText class="form-control" id="city" @bind-Value="ev.Address.City"></InputText>
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label">Price</label>

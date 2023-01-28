@@ -11,8 +11,8 @@
                     <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@ev.ImageUrl"/>
                     <div class="card-body">
                         <h5 class="card-title">@ev.Title</h5>
-                        <h6 class="card-subtitle text-muted">@ev.Address, @ev.City</h6>
-                        <p class="card-text mb-2"><small class="text-muted">@ev.StartDate.ToLongDateString()</small></p>
+                        <h6 class="card-subtitle text-muted">@ev.Address.Street @ev.Address.City</h6>
+                        <p class="card-text mb-2"><small class="text-muted">@ev.Date.ToLongDateString()</small></p>
                         <p class="card-text">@ev.Description</p>                        
                         <p class="card-text"><small class="text-muted">@ev.Price zł</small></p>
                         <a href="/event/@ev.Id">Więcej informacji...</a>

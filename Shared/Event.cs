@@ -11,24 +11,21 @@ namespace EventsApp.Shared
     public class Event
     {
         public int Id { get; set; }
-        [Required]
         public string Title { get; set; } = string.Empty;
-        [Required]
         public string Description { get; set; } = string.Empty;
-        public string ImageUrl { get; set; } = string.Empty;
-        [Required]
-        public DateTime StartDate { get; set; }
-        [Required] 
-        public string Address { get; set; } = string.Empty;
-        [Required] 
-        public string City { get; set; } = string.Empty;
-        [Required, Column(TypeName = "decimal(18,2)")]
+        public DateTime Date { get; set; } = DateTime.Now;
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+        public List<Image> Images { get; set; } = new List<Image>();
+        public string ImageUrl { get; set; } = string.Empty;
+        public Address? Address { get; set; }
+        public int AddressId { get; set; }
+        public Category? Category { get; set; }
+        public int CategoryId { get; set; }
         public bool Deleted { get; set; } = false;
         [NotMapped]
         public bool Editing { get; set; } = false;
         [NotMapped]
         public bool IsNew { get; set; } = false;
-
     }
 }

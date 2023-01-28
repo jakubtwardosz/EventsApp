@@ -53,9 +53,8 @@ namespace EventsApp.Server.Services.EventService
 
             dbProduct.Title = ev.Title;
             dbProduct.Description = ev.Description;
-            dbProduct.StartDate = ev.StartDate;
+            dbProduct.Date = ev.Date;
             dbProduct.Address = ev.Address;
-            dbProduct.City = ev.City;
             dbProduct.Price = ev.Price;
             dbProduct.ImageUrl= ev.ImageUrl;
 
