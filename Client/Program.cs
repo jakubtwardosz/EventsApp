@@ -1,8 +1,9 @@
+global using Microsoft.AspNetCore.Components.Authorization;
 global using System.Net.Http.Json;
 global using EventsApp.Shared;
 global using EventsApp.Client.Services.AuthService;
 global using EventsApp.Client.Services.EventService;
-global using Microsoft.AspNetCore.Components.Authorization;
+global using EventsApp.Client.Services.CategoryService;
 
 using EventsApp.Client;
 using Microsoft.AspNetCore.Components.Web;
@@ -16,10 +17,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddBlazoredLocalStorage();
 
-
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();

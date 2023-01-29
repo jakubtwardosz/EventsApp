@@ -16,6 +16,6 @@ namespace EventsApp.Shared
         [NotMapped]
         public bool Editing { get; set; } = false;
         [NotMapped]
-        public bool IsNew { get; set; } = true;
+        public bool IsNew { get; set; } = false;
     }
 }

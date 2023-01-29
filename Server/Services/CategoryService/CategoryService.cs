@@ -66,6 +66,7 @@
 
             dbCategory.Name = category.Name;
             dbCategory.Url = category.Url;
+            dbCategory.Deleted = category.Deleted;
 
             await _context.SaveChangesAsync();
 
