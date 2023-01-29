@@ -1,6 +1,7 @@
 global using EventsApp.Shared;
 global using EventsApp.Server.Data;
 global using EventsApp.Server.Services.EventService;
+global using EventsApp.Server.Services.CategoryService;
 global using EventsApp.Server.Services.AuthService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,9 +15,10 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IEventService,EventService>();
-builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddDbContext<DataContext>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 var app = builder.Build();
@@ -45,7 +47,6 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 
 app.MapRazorPages();
 app.MapControllers();
