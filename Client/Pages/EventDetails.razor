@@ -14,7 +14,10 @@ else {
         <p class="mb-3">@ev.Description</p>
 
         <p><strong>Data: </strong>@ev.Date.ToLongDateString()</p>
-        <p><strong>Adres: </strong>@ev.Address.Street, @ev.Address.City</p>
+        @*@foreach (var address in ev.Address)
+        {
+            <p><strong>Adres: </strong>@ev.Address.Street @ev.Address.City</p>
+        }*@
         <p><strong>Cena: </strong>@ev.Price zł</p>
     </div>
 }

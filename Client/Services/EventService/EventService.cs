@@ -15,7 +15,7 @@ namespace EventsApp.Client.Services.EventService
 
         public async Task<Event> AddEvent(Event ev)
         {
-            var result = await _http.PostAsJsonAsync("api/Event", ev);
+            var result = await _http.PostAsJsonAsync("api/event", ev);
             var newEvent = (await result.Content
                 .ReadFromJsonAsync<ServiceResponse<Event>>()).Data;
             return newEvent;
@@ -23,25 +23,25 @@ namespace EventsApp.Client.Services.EventService
 
         public async Task DeleteEvent(Event ev)
         {
-            var result = await _http.DeleteAsync($"api/Event/{ev.Id}");
+            var result = await _http.DeleteAsync($"api/event/{ev.Id}");
         }
 
         public async Task<ServiceResponse<Event>> GetEvent(int id)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<Event>>($"api/Event/{id}");
+            var result = await _http.GetFromJsonAsync<ServiceResponse<Event>>($"api/event/{id}");
             return result;
         }
 
         public async Task GetEvents()
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<List<Event>>>("api/Event");
+            var result = await _http.GetFromJsonAsync<ServiceResponse<List<Event>>>("api/event");
             if (result != null && result.Data != null)
                 Events = result.Data;
         }
 
         public async Task<Event> UpdateEvent(Event ev)
         {
-            var result = await _http.PutAsJsonAsync($"api/Event", ev);
+            var result = await _http.PutAsJsonAsync($"api/event", ev);
             var content = await result.Content.ReadFromJsonAsync<ServiceResponse<Event>>();
             return content.Data;
         }
