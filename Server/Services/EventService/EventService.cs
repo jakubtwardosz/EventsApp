@@ -1,4 +1,8 @@
-﻿using Azure.Core;
+﻿using Azure;
+using Azure.Core;
+using EventsApp.Shared;
+using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace EventsApp.Server.Services.EventService
 {
@@ -9,6 +13,20 @@ namespace EventsApp.Server.Services.EventService
         public EventService(DataContext context)
         {
             _context = context;
+        }
+
+        public async Task<ServiceResponse<int>> GetEventId(int id)
+        {
+            var response = new ServiceResponse<Event>();
+            var dbEvent = await _context.Events.FindAsync(id);
+            if (dbEvent == null) {
+                return new ServiceResponse<int>
+                {
+                    Success = false,
+                    Message = "Event not found."
+                };
+            }
+            return new ServiceResponse<int> { Data = dbEvent.AddressId };
         }
 
         public async Task<ServiceResponse<Event>> AddEvent(Event ev)
@@ -54,7 +72,7 @@ namespace EventsApp.Server.Services.EventService
             dbProduct.Title = ev.Title;
             dbProduct.Description = ev.Description;
             dbProduct.Date = ev.Date;
-            dbProduct.Address = ev.Address;
+            dbProduct.AddressId = ev.AddressId;
             dbProduct.Price = ev.Price;
             dbProduct.ImageUrl= ev.ImageUrl;
 
@@ -91,6 +109,48 @@ namespace EventsApp.Server.Services.EventService
             }
 
             return response;
+        }
+
+        public async Task<ServiceResponse<Address>> AddOrUpdateAddress(Address address)
+        {
+            int eventId = address.EventId;
+
+            var addressId = (await GetEventId(eventId)).Data;
+
+            var response = new ServiceResponse<Address>();
+
+            var dbAddress = (await GetAddress(eventId)).Data;
+            if (dbAddress == null)
+            {
+                address.EventId = addressId;
+                _context.Addresses.Add(address);
+                response.Data = address;
+            }
+            else
+            {
+                dbAddress.Street = address.Street;
+                dbAddress.City = address.City;
+                response.Data = dbAddress;
+            }
+
+            await _context.SaveChangesAsync();
+            return response;
+        }
+
+        public async Task<ServiceResponse<Address>> GetAddress(int eventId)
+        {
+            var address = await _context.Addresses
+                .FirstOrDefaultAsync(a => a.EventId == eventId);
+            if (address == null)
+            {
+                return new ServiceResponse<Address>
+                {
+                    Success = false,
+                    Message = "Address not found."
+                };
+            }
+
+            return new ServiceResponse<Address> { Data = address };
         }
     }
 }

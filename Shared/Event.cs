@@ -18,10 +18,9 @@ namespace EventsApp.Shared
         public decimal Price { get; set; }
         public List<Image> Images { get; set; } = new List<Image>();
         public string ImageUrl { get; set; } = string.Empty;
-        public Address? Address { get; set; }
         public int AddressId { get; set; }
-        public Category? Category { get; set; }
         public int CategoryId { get; set; }
+        public Category? Category { get; set; }
         public bool Deleted { get; set; } = false;
         [NotMapped]
         public bool Editing { get; set; } = false;

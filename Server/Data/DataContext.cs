@@ -1,4 +1,5 @@
 ﻿global using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace EventsApp.Server.Data
 {
@@ -11,6 +12,28 @@ namespace EventsApp.Server.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Address>().HasData(
+               new Address
+               {
+                   Id = 1,
+                   EventId = 1,
+                   Street = "Plac wolnica 10",
+                   City = "Kraków"
+               },
+               new Address
+               {
+                   Id = 2,
+                   EventId = 2,
+                   Street = "Niepodległości 36",
+                   City = "Poznań"
+               },
+               new Address
+               {
+                   Id = 3,
+                   EventId = 3,
+                   Street = "Mostowa 2",
+                   City = "Kraków"
+               });
 
             modelBuilder.Entity<Event>().HasData(
                 new Event
@@ -60,31 +83,12 @@ namespace EventsApp.Server.Data
                     Name = "Drum and bass",
                     Url = "drum-and-bass"
                 });
-
-            modelBuilder.Entity<Address>().HasData(
-                new Address
-                {
-                    Id = 1,
-                    Street = "Plac wolnica 10",
-                    City = "Kraków"
-                },
-                new Address
-                {
-                    Id = 2,
-                    Street = "Niepodległości 36",
-                    City = "Poznań"
-                },
-                new Address
-                {
-                    Id = 3,
-                    Street = "Mostowa 2",
-                    City = "Kraków"
-                });
         }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.UseSqlServer("server=(localdb)\\MSSQLLocalDB;database=eventapp;Trusted_Connection=true;TrustServerCertificate=true;");
         }
