@@ -12,10 +12,9 @@
                     <div class="card-body">
                         <h5 class="card-title">@ev.Title</h5>
 
-                        @*@foreach (var address in ev.Address)
-                        {
-                            <h6 class="card-subtitle text-muted">@ev.Address.Street @ev.Address.City</h6>
-                        }*@
+                        
+                        <h6 class="card-subtitle text-muted">@address.City @address.Street</h6>
+                        
                         
                         <p class="card-text mb-2"><small class="text-muted">@ev.Date.ToLongDateString()</small></p>
                         <p class="card-text">@ev.Description</p>                        
@@ -30,9 +29,15 @@
 </div>
 
 @code {
+    private Address? address = null;
+
+    [Parameter]
+    public int Id { get; set; }
+
     protected override async Task OnInitializedAsync()
-    {
+    { 
         await EventService.GetEvents();
+        address = await EventService.GetAddress(Id);
     }
 }
 

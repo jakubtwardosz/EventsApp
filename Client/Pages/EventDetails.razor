@@ -14,10 +14,10 @@ else {
         <p class="mb-3">@ev.Description</p>
 
         <p><strong>Data: </strong>@ev.Date.ToLongDateString()</p>
-        @*@foreach (var address in ev.Address)
-        {
-            <p><strong>Adres: </strong>@ev.Address.Street @ev.Address.City</p>
-        }*@
+        
+        <p><strong>City: @address.City</strong></p>
+        <p><strong>Street: @address.Street</strong></p>
+
         <p><strong>Cena: </strong>@ev.Price zł</p>
     </div>
 }
@@ -27,6 +27,7 @@ else {
 
 @code {
     private Event? ev = null;
+    private Address? address = null;
     private string message = string.Empty;
 
     [Parameter]
@@ -35,7 +36,8 @@ else {
     protected override async Task OnParametersSetAsync()
     {
         var result = await EventService.GetEvent(Id);
-
+        
+ 
         message = "Loading product...";
 
         if (!result.Success)
@@ -45,6 +47,7 @@ else {
         else
         {
             ev = result.Data;
+            address = await EventService.GetAddress(Id);
         }
     }
 }

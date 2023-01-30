@@ -1,5 +1,7 @@
 ﻿
 
+using EventsApp.Shared;
+
 namespace EventsApp.Client.Services.EventService
 {
     public class EventService : IEventService
@@ -45,5 +47,25 @@ namespace EventsApp.Client.Services.EventService
             var content = await result.Content.ReadFromJsonAsync<ServiceResponse<Event>>();
             return content.Data;
         }
+
+        public async Task<Address> AddOrUpdateAddress(Address address)
+        {
+            var response = await _http.PostAsJsonAsync("api/event/address", address);
+            return response.Content
+                .ReadFromJsonAsync<ServiceResponse<Address>>().Result.Data;
+        }
+
+        public async Task<Address> GetAddress(int eventId)
+        {
+            var result = await _http
+                .GetFromJsonAsync<ServiceResponse<Address>>($"api/Event/address/{eventId}");
+            return result.Data;
+        }
+
+
+
+
+
+
     }
 }
