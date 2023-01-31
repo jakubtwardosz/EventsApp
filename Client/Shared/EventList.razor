@@ -2,42 +2,31 @@
 
 <div class="container mt-4">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    @foreach (var ev in EventService.Events)
-    {
+        @foreach (var ev in EventService.Events)
+        {
 
-            <div class="col">
+            <div class="col-sm-12 col">
                 <div class="card shadow-sm">
-                    
-                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@ev.ImageUrl"/>
+                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@ev.ImageUrl" />
                     <div class="card-body">
                         <h5 class="card-title">@ev.Title</h5>
-
-                        
-                        <h6 class="card-subtitle text-muted">@address.City @address.Street</h6>
-                        
-                        
+                        <h6 class="card-subtitle text-muted">@ev.City, @ev.Street</h6>
                         <p class="card-text mb-2"><small class="text-muted">@ev.Date.ToLongDateString()</small></p>
-                        <p class="card-text">@ev.Description</p>                        
+                        <p class="card-text">@ev.Description</p>
                         <p class="card-text"><small class="text-muted">@ev.Price zł</small></p>
                         <a href="/event/@ev.Id">Więcej informacji...</a>
                     </div>
                 </div>
             </div>
-        
-    }
+
+        }
     </div>
 </div>
 
 @code {
-    private Address? address = null;
-
-    [Parameter]
-    public int Id { get; set; }
-
     protected override async Task OnInitializedAsync()
-    { 
+    {
         await EventService.GetEvents();
-        address = await EventService.GetAddress(Id);
     }
 }
 

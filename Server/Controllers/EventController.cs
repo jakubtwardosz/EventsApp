@@ -50,24 +50,5 @@ namespace EventsApp.Server.Controllers
             var result = await _eventService.DeleteEvent(id);
             return Ok(result);
         }
-
-        [HttpGet("test/{id}")]
-        public async Task<ActionResult<ServiceResponse<Event>>> GetEventId(int id)
-        {
-            var result = await _eventService.GetEventId(id);
-            return Ok(result);
-        }
-
-        [HttpGet("address/{eventId}")]
-        public async Task<ActionResult<ServiceResponse<Address>>> GetAddress(int eventId)
-        {
-            return await _eventService.GetAddress(eventId);
-        }
-        
-        [HttpPost("address")]
-        public async Task<ActionResult<ServiceResponse<Address>>> AddOrUpdateAddress(Address address)
-        {
-            return await _eventService.AddOrUpdateAddress(address);
-        }
     }
 }

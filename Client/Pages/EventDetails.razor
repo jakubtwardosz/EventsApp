@@ -7,7 +7,8 @@
 }
 else {
     <div class="container mt-4">
-        <img class="rounded mx-auto d-block img-fluid mb-5" style="max-height:450px" src="@ev.ImageUrl" alt="ev.Title" />
+
+        <img class="rounded mx-auto d-block img-fluid mb-5" style="max-height:450px" src="@ev.ImageUrl" alt="@ev.Title" />     
 
         <h1 class="mb-2">@ev.Title</h1>
 
@@ -15,19 +16,15 @@ else {
 
         <p><strong>Data: </strong>@ev.Date.ToLongDateString()</p>
         
-        <p><strong>City: @address.City</strong></p>
-        <p><strong>Street: @address.Street</strong></p>
+        <p><strong>City: @ev.City</strong></p>
+        <p><strong>Street: @ev.Street</strong></p>
 
         <p><strong>Cena: </strong>@ev.Price zł</p>
     </div>
 }
 
-
-
-
 @code {
     private Event? ev = null;
-    private Address? address = null;
     private string message = string.Empty;
 
     [Parameter]
@@ -35,8 +32,7 @@ else {
 
     protected override async Task OnParametersSetAsync()
     {
-        var result = await EventService.GetEvent(Id);
-        
+        var result = await EventService.GetEvent(Id);        
  
         message = "Loading product...";
 
@@ -47,7 +43,6 @@ else {
         else
         {
             ev = result.Data;
-            address = await EventService.GetAddress(Id);
         }
     }
 }

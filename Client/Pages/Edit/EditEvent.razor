@@ -42,17 +42,20 @@
                         <label for="date" class="form-label">Date</label>
                         <InputDate class="form-control" id="date" @bind-Value="ev.Date"></InputDate>
                     </div>
-                    @*<div class="mb-3">
+                    <div class="mb-3">
                         <label for="street" class="form-label">Street</label>
-                        <InputText class="form-control" id="street" @bind-Value="ev.Address.Street"></InputText>
-                    </div>*@
-                    @*<div class="mb-3">
+                        <InputText class="form-control" id="street" @bind-Value="ev.Street"></InputText>
+                    </div>
+                    <div class="mb-3">
                         <label for="city" class="form-label">City</label>
-                    <InputText class="form-control" id="city" @bind-Value="ev.Address.City"></InputText>
-                    </div>*@
+                    <InputText class="form-control" id="city" @bind-Value="ev.City"></InputText>
+                    </div>
                     <div class="mb-3">
                         <label for="price" class="form-label">Price</label>
                         <InputNumber class="form-control" id="price" @bind-Value="ev.Price"></InputNumber>
+                    </div>
+                    <div class="mb-3">
+                        <img src="@ev.ImageUrl" class="img-fluid" alt="@ev.Title" />
                     </div>
                     <div class="mb-3">
                         <label for="imageUrl" class="form-label">Image Url</label>
@@ -62,6 +65,7 @@
                     <button type="submit" class="btn btn-primary mb-2">@btnText</button>
                     <ValidationSummary></ValidationSummary>
                 </EditForm>
+
             @if (!ev.IsNew)
             {
                         <button type="button" class="btn btn-danger mb-2" @onclick="DeleteEvent">
@@ -77,7 +81,6 @@
     public int Id { get; set; }
 
     Event ev = new Event();
-
 
     bool loading = true;
     string btnText = "";
@@ -105,14 +108,12 @@
         loading = false;
     }
 
- 
- 
-
     async void AddOrUpdateEvent()
     {
         if (ev.IsNew)
         {
             var result = await EventService.AddEvent(ev);
+            
             NavigationManager.NavigateTo($"edit/event/{result.Id}");
         }
         else
