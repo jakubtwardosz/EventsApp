@@ -1,6 +1,7 @@
 ﻿@page "/edit/event"
 @page "/edit/event/{id:int}"
 @inject IEventService EventService
+@inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 
@@ -41,6 +42,15 @@
                     <div class="mb-3">
                         <label for="date" class="form-label">Date</label>
                         <InputDate class="form-control" id="date" @bind-Value="ev.Date"></InputDate>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <InputSelect class="form-control" id="category" @bind-Value="ev.CategoryId">
+                            @foreach (var category in CategoryService.Categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </InputSelect>
                     </div>
                     <div class="mb-3">
                         <label for="street" class="form-label">Street</label>
@@ -85,6 +95,11 @@
     bool loading = true;
     string btnText = "";
     string msg = "Loading...";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CategoryService.GetCategories();
+    }
 
     protected override async Task OnParametersSetAsync()
     {

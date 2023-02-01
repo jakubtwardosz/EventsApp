@@ -57,6 +57,8 @@ namespace EventsApp.Server.Services.EventService
 
             dbProduct.Title = ev.Title;
             dbProduct.Description = ev.Description;
+            dbProduct.CategoryId = ev.CategoryId;
+            dbProduct.Category = ev.Category;
             dbProduct.Date = ev.Date;
             dbProduct.City = ev.City;
             dbProduct.Street = ev.Street;
