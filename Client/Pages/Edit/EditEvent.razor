@@ -8,81 +8,109 @@
 <div class="container">
     @if (loading)
     {
-            <p>@msg</p>
+        <p>@msg</p>
     }
     else
     {
         @if (ev.Editing)
         {
-                    <div class="col-12">
-                        <div class="mb-4">
-                            <h2 class="mb-0">Edit "@ev.Title"</h2>
-                        </div>
-                    </div>
+            <div class="col-12">
+                <div class="mb-4">
+                    <h2 class="mb-0">Edit "@ev.Title"</h2>
+                </div>
+            </div>
         }
         else if (ev.IsNew)
         {
-                    <div class="col-12">
-                        <div class="mb-4">
-                            <h2 class="mb-0">Create a new Product</h2>
-                        </div>
-                    </div>
+            <div class="col-12">
+                <div class="mb-4">
+                    <h2 class="mb-0">Create a new Product</h2>
+                </div>
+            </div>
         }
-            <div class="col-12 mb-5">
-                <EditForm Model="ev" OnValidSubmit="AddOrUpdateEvent">
-                    <DataAnnotationsValidator></DataAnnotationsValidator>
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <InputText type="text" class="form-control" id="title" @bind-Value="ev.Title"></InputText>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <InputTextArea class="form-control" id="description" @bind-Value="ev.Description"></InputTextArea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="date" class="form-label">Date</label>
-                        <InputDate class="form-control" id="date" @bind-Value="ev.Date"></InputDate>
-                    </div>
-                    <div class="mb-3">
-                        <label for="category" class="form-label">Category</label>
-                        <InputSelect class="form-control" id="category" @bind-Value="ev.CategoryId">
-                            @foreach (var category in CategoryService.Categories)
-                            {
-                                <option value="@category.Id">@category.Name</option>
-                            }
-                        </InputSelect>
-                    </div>
-                    <div class="mb-3">
-                        <label for="street" class="form-label">Street</label>
-                        <InputText class="form-control" id="street" @bind-Value="ev.Street"></InputText>
-                    </div>
-                    <div class="mb-3">
-                        <label for="city" class="form-label">City</label>
+        <div class="col-12 mb-5">
+            <EditForm Model="ev" OnValidSubmit="AddOrUpdateEvent">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <InputText type="text" class="form-control" id="title" @bind-Value="ev.Title"></InputText>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <InputTextArea class="form-control" id="description" @bind-Value="ev.Description"></InputTextArea>
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">Date</label>
+                    <InputDate class="form-control" id="date" @bind-Value="ev.Date"></InputDate>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <InputSelect class="form-control" id="category" @bind-Value="ev.CategoryId">
+                        @foreach (var category in CategoryService.Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="mb-3">
+                    <label for="street" class="form-label">Street</label>
+                    <InputText class="form-control" id="street" @bind-Value="ev.Street"></InputText>
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">City</label>
                     <InputText class="form-control" id="city" @bind-Value="ev.City"></InputText>
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price</label>
-                        <InputNumber class="form-control" id="price" @bind-Value="ev.Price"></InputNumber>
-                    </div>
-                    <div class="mb-3">
-                        <img src="@ev.ImageUrl" class="img-fluid" alt="@ev.Title" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="imageUrl" class="form-label">Image Url</label>
-                        <InputText type="text" class="form-control" id="imageUrl" @bind-Value="ev.ImageUrl"></InputText>
-                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <InputNumber class="form-control" id="price" @bind-Value="ev.Price"></InputNumber>
+                </div>
+                <div class="mb-3 d-flex" style="flex-wrap:wrap; flex-direction:row; justify-content:center;">
 
-                    <button type="submit" class="btn btn-primary mb-2">@btnText</button>
-                    <ValidationSummary></ValidationSummary>
-                </EditForm>
+                    @if (!string.IsNullOrEmpty(ev.ImageUrl))
+                    {
+                        <img src="@ev.ImageUrl" class="img-fluid" alt="@ev.Title" />
+                    }
+                    else
+                    {
+                        foreach (var image in ev.Images)
+                        {
+                            <MudCard Class="ma-2">
+                                <MudCardContent>
+                                    <MudImage Src="@image.Data"/>
+                                </MudCardContent>
+                                <MudCardActions Style="justify-content:center">
+                                    <MudButton Variant="Variant.Filled" Color="Color.Error" @onclick="() => RemoveImage(image.Id)">Usuń</MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                            
+                            @*
+                            <img src="@image.Data" class="img-fluid" />
+                            <button type="button" @onclick="() => RemoveImage(image.Id)">Usuń zdjęcie</button>*@
+                        }
+                    }
+                </div>
+                <div class="mb-3">
+                    <label for="imageUrl" class="form-label">Image Url</label>
+                    <InputText type="text" class="form-control" id="imageUrl" @bind-Value="ev.ImageUrl"></InputText>
+                </div>
+
+                <div class="mb-3">
+                    <label for="images" class="form-label">Images</label>
+                    <InputFile class="form-control" id="images" multiple OnChange="OnFileChange"></InputFile>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary mb-2">@btnText</button>
+                <ValidationSummary></ValidationSummary>
+            </EditForm>
 
             @if (!ev.IsNew)
             {
-                        <button type="button" class="btn btn-danger mb-2" @onclick="DeleteEvent">
-                            Delete Event
-                        </button>
+                <button type="button" class="btn btn-danger mb-2" @onclick="DeleteEvent">
+                    Delete Event
+                </button>
             }
-            </div>
+        </div>
     }
 </div>
 
@@ -128,7 +156,7 @@
         if (ev.IsNew)
         {
             var result = await EventService.AddEvent(ev);
-            
+
             NavigationManager.NavigateTo($"edit/event/{result.Id}");
         }
         else
@@ -149,4 +177,27 @@
             NavigationManager.NavigateTo("edit/events");
         }
     }
+
+    async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+        var format = "image/png";
+        foreach (var image in e.GetMultipleFiles(int.MaxValue))
+        {
+            var resizedImage = await image.RequestImageFileAsync(format, 200, 200);
+            var buffer = new byte[resizedImage.Size];
+            await resizedImage.OpenReadStream().ReadAsync(buffer);
+            var imageData = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+            ev.Images.Add(new Image { Data = imageData });
+        }
+    }
+
+    void RemoveImage(int id)
+    {
+        var image = ev.Images.FirstOrDefault(i => i.Id == id);
+        if (image != null)
+        {
+            ev.Images.Remove(image);
+        }
+    }
+
 }

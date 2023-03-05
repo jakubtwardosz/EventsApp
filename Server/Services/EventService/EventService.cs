@@ -44,6 +44,7 @@ namespace EventsApp.Server.Services.EventService
         public async Task<ServiceResponse<Event>> UpdateEvent(Event ev)
         {
             var dbProduct = await _context.Events
+                .Include(p => p.Images)
                 .FirstOrDefaultAsync(e => e.Id == ev.Id);
 
             if (dbProduct == null)
@@ -65,6 +66,10 @@ namespace EventsApp.Server.Services.EventService
             dbProduct.Price = ev.Price;
             dbProduct.ImageUrl= ev.ImageUrl;
 
+            var eventImages = dbProduct.Images;
+            _context.Images.RemoveRange(eventImages);
+
+            dbProduct.Images = ev.Images;
 
             await _context.SaveChangesAsync();
             return new ServiceResponse<Event> { Data = ev };
@@ -76,6 +81,7 @@ namespace EventsApp.Server.Services.EventService
             {
                 Data = await _context.Events
                 .Where(e => !e.Deleted)
+                .Include(p => p.Images)
                 .ToListAsync()
             };
 
@@ -85,7 +91,9 @@ namespace EventsApp.Server.Services.EventService
         public async Task<ServiceResponse<Event>> GetEvent(int id)
         {
             var response = new ServiceResponse<Event>();
-            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == id && !e.Deleted);
+            var ev = await _context.Events
+                .Include(p => p.Images)
+                .FirstOrDefaultAsync(e => e.Id == id && !e.Deleted);
 
             if (ev == null)
             {
