@@ -15,15 +15,13 @@ else {
             }
             else
             {
-                <MudCarousel Class="mud-width-full" ItemsSource="@ev.Images" Style="height: 200px;">
+                <MudCarousel Class="mud-width-full" ItemsSource="@ev.Images" ShowBullets="false" Style="height: 450px;">
                     <ItemTemplate>
                         <MudImage Src="@context.Data"></MudImage>
                     </ItemTemplate>
                 </MudCarousel>
             }
         </div>
-
-        @*<img class="rounded mx-auto d-block img-fluid mb-5" style="max-height:450px" src="@ev.ImageUrl" alt="@ev.Title" />*@
 
         <h1 class="mb-2">@ev.Title</h1>
 
