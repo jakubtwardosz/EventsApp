@@ -9,6 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsApp.Client", "Client\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsApp.Shared", "Shared\EventsApp.Shared.csproj", "{944EDC65-809F-446C-BEBF-05981AC6EDE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{A923BC98-EEE8-4161-9015-C063887265C1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{574CB86B-F89E-46EE-AF62-B24FE7242FD4} = {574CB86B-F89E-46EE-AF62-B24FE7242FD4}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +32,10 @@ Global
 		{944EDC65-809F-446C-BEBF-05981AC6EDE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{944EDC65-809F-446C-BEBF-05981AC6EDE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{944EDC65-809F-446C-BEBF-05981AC6EDE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A923BC98-EEE8-4161-9015-C063887265C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A923BC98-EEE8-4161-9015-C063887265C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A923BC98-EEE8-4161-9015-C063887265C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A923BC98-EEE8-4161-9015-C063887265C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
