@@ -44,9 +44,9 @@ namespace UnitTests.Fixtures
                }
         };
 
-        public static Event GetTestEvent(int id = 1) => new Event
+        public static Event GetTestEvent() => new Event
         {
-            Id = id,
+            Id = 1,
             CategoryId = 1,
             Title = "BASSTARDS 2.0: MATT GREEN / FATHERTZ",
             Description = "Duet didżejski FATHERTZ po raz drugi wjeżdza do naszej piwnicy! 😎 Misje mają jedną - zadbać o najniższe częstotliwości i wymassssowac Wam uszy porządnym basssem!",

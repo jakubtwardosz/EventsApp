@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using UnitTests.Fixtures;
+using Azure;
 
 namespace UnitTests.Systems.Controllers
 {
@@ -27,7 +28,7 @@ namespace UnitTests.Systems.Controllers
             var mockEventService = new Mock<IEventService>();
             mockEventService.Setup(service => service.GetEvents()).ReturnsAsync(expectedResponse);
             var controller = new EventController(mockEventService.Object);
-            
+
             // Act
             var result = await controller.GetEvents();
 
@@ -89,13 +90,18 @@ namespace UnitTests.Systems.Controllers
 
             // Assert
             var badRequestResult = Assert.IsType<OkObjectResult>(result.Result);
+            var response = Assert.IsType<ServiceResponse<List<Event>>>(badRequestResult.Value);
+
+            Assert.False(response.Success);
+            Assert.Equal(expectedError, response.Message);
+
         }
 
         [Fact]
         public async Task GetEvents_Returns_EmptyList_When_No_Events_Available()
         {
             // Arrange
-            var expectedResponse = new ServiceResponse<List<Event>> { Data = new List<Event>(), Success = true };
+            var expectedResponse = new ServiceResponse<List<Event>> { Data = new List<Event>(), Success = true, Message = "" };
 
             var mockEventService = new Mock<IEventService>();
             mockEventService.Setup(service => service.GetEvents()).ReturnsAsync(expectedResponse);
@@ -109,6 +115,8 @@ namespace UnitTests.Systems.Controllers
             var response = Assert.IsType<ServiceResponse<List<Event>>>(okResult.Value);
             Assert.NotNull(response.Data);
             Assert.Empty(response.Data);
+            Assert.True(response.Success);
+            Assert.Equal("", response.Message);
         }
 
         [Fact]
@@ -134,7 +142,7 @@ namespace UnitTests.Systems.Controllers
         {
             // Arrange
             int id = 1;
-            var expectedResponse = new ServiceResponse<Event> { Data = EventsFixture.GetTestEvent(id), Success = true };
+            var expectedResponse = new ServiceResponse<Event> { Data = EventsFixture.GetTestEvent(), Success = true };
 
             var mockEventService = new Mock<IEventService>();
             mockEventService.Setup(service => service.GetEvent(id)).ReturnsAsync(expectedResponse);
@@ -146,6 +154,8 @@ namespace UnitTests.Systems.Controllers
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
             Assert.Equal(expectedResponse, okResult.Value);
+            Assert.Equal(expectedResponse.Data.Id, id);
+            Assert.True(expectedResponse.Success);
         }
 
         [Fact]
@@ -153,9 +163,9 @@ namespace UnitTests.Systems.Controllers
         {
             // Arrange
             int nonExistingId = 123;
+            var expectedResponse = new ServiceResponse<Event> { Data = null, Success = false, Message = "Event is not exist." };
             var mockEventService = new Mock<IEventService>();
-            mockEventService.Setup(service => service.GetEvent(nonExistingId))
-                            .ReturnsAsync(new ServiceResponse<Event>());
+            mockEventService.Setup(service => service.GetEvent(nonExistingId)).ReturnsAsync(expectedResponse);
 
             var controller = new EventController(mockEventService.Object);
 
@@ -163,7 +173,11 @@ namespace UnitTests.Systems.Controllers
             var result = await controller.GetEvent(nonExistingId);
 
             // Assert
-            Assert.IsType<OkObjectResult>(result.Result);
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var serviceResponse = Assert.IsType<ServiceResponse<Event>>(okResult.Value);
+            Assert.Null(serviceResponse.Data);
+            Assert.False(serviceResponse.Success);
+            Assert.Equal("Event is not exist.", serviceResponse.Message);
         }
 
         [Fact]
@@ -171,19 +185,21 @@ namespace UnitTests.Systems.Controllers
         {
             // Arrange
             int invalidId = -1;
-            var expectedResponse = new ServiceResponse<Event> { Data = EventsFixture.GetTestEvent(invalidId), Success = false };
+            var expectedResponse = new ServiceResponse<Event> { Data = null, Success = false, Message = "Event is not exist." };
             var mockEventService = new Mock<IEventService>();
             mockEventService.Setup(service => service.GetEvent(invalidId)).ReturnsAsync(expectedResponse);
-            
+
             var controller = new EventController(mockEventService.Object);
 
             // Act
             var result = await controller.GetEvent(invalidId);
 
             // Assert
-            Assert.IsType<OkObjectResult>(result.Result);
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var serviceResponse = Assert.IsType<ServiceResponse<Event>>(okResult.Value);
+            Assert.Null(serviceResponse.Data);
+            Assert.False(serviceResponse.Success);
+            Assert.Equal("Event is not exist.", serviceResponse.Message);
         }
-
-
     }
 }
