@@ -43,5 +43,18 @@ namespace UnitTests.Fixtures
                    Price = 9.99M
                }
         };
+
+        public static Event GetTestEvent(int id = 1) => new Event
+        {
+            Id = id,
+            CategoryId = 1,
+            Title = "BASSTARDS 2.0: MATT GREEN / FATHERTZ",
+            Description = "Duet didżejski FATHERTZ po raz drugi wjeżdza do naszej piwnicy! 😎 Misje mają jedną - zadbać o najniższe częstotliwości i wymassssowac Wam uszy porządnym basssem!",
+            ImageUrl = "https://pixabay.com/get/gf9a83c63161cba0344bfff805686fb9f5a4d7947c5aae295a0944f0e0baaa247c9cbb637de52ae1349123439d8a313047351af0010af545ffd7e2411c3f33724f14768edf70fafaff0aa07c866e597df_1280.jpg",
+            Date = new DateTime(2023, 2, 17, 23, 00, 00),
+            Street = "Plac wolnica 10",
+            City = "Kraków",
+            Price = 7.99M
+        };
     }
 }
